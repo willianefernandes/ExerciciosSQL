@@ -1,0 +1,44 @@
+#1- Procure o dataset “thelook_ecommerce”. Calcule o tempo em dias da data de cadastro até a última compra de cada usuário.
+SELECT 
+u.id,
+max(o.created_at) as data_maxima,
+u.created_at,
+max(timestamp_diff(o.created_at, u.created_at, day)) as dias_ate_primeira_compra
+FROM `bigquery-public-data.thelook_ecommerce.order_items` as o
+JOIN bigquery-public-data.thelook_ecommerce.users as u on u.id = o.user_id
+group by 1, 3
+order by 3 desc;
+
+#2- Na mesma tabela, calcule o tempo em dias entre a primeira e a última compra de cada usuário.
+SELECT
+user_id,
+MIN(date(created_at)) as menor_dia,
+MAX(date(created_at)) as maior_dia,
+TIMESTAMP_DIFF(MAX(DATE(created_at)), MIN(DATE(created_at)), DAY) AS diferenca #timestamp_diff nao calcula com base no alias
+FROM `bigquery-public-data.thelook_ecommerce.order_items`
+group by 1
+order by 3 desc;
+
+#3- No mesmo dataset, e tabela de eventos, traga a quantidade de registros para cada usuário entre 06 de maio de 2023 menos 73 dias e 09 de maio de 2023, nos eventos de carrinho e compra. Ordene por usuário e tipo do evento.
+SELECT DISTINCT
+event_type,
+count(id) as quantidade_pedidos
+FROM bigquery-public-data.thelook_ecommerce.events
+where event_type in ('cart', 'purchase') and date(created_at) between date_sub('2023-05-06', interval 73 day) and '2023-05-09'
+group by event_type;
+
+#4- Ache o dataset “catalonian_mobile_coverage” e calcule a quantidade de sinais 4G recebidos no mês de março de 2016.
+SELECT
+    EXTRACT(month FROM date) AS mes,
+    EXTRACT(year FROM date) AS ano,
+    COUNT(net) AS qtd_sinal
+FROM
+    bigquery-public-data.catalonian_mobile_coverage_eu.mobile_data_2015_2017
+WHERE
+    signal = "4G"
+    AND date BETWEEN '2016-03-01' AND '2016-12-31'
+GROUP BY
+    EXTRACT(month FROM date),
+    EXTRACT(year FROM date)
+ORDER BY
+    ano, mes;
