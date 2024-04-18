@@ -16,5 +16,3 @@ Os exercícios explicam descrevem o dataset trabalhado e os objetivos de aprendi
 -> Executar Consultas: Você pode executar esses scripts diretamente no BigQuery para ver os resultados por si mesmo. <div>
 -> Modifique e Experimente: Sinta-se à vontade para modificar os scripts para testar diferentes abordagens ou adaptá-los para outros datasets. <div>
 </div>
-
-Obrigado por visitar meu repositório! Espero que você encontre estes recursos úteis em sua própria jornada de aprendizado de dados.
